@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/FinalExam_PTTK">
+    <Resource name="jdbc/finalexampttk" auth="Container" 
+              maxActive="100" maxIdle="30" maxWait="10000" 
+              username="root" password="root" 
+              driverClassName="com.mysql.cj.jdbc.Driver" 
+              url="jdbc:mysql://localhost:3306/finalexampttk?autoReconnect=true" 
+              logAbandoned="true" removeAbandoned="true" 
+              removeAbandonedTimeout="60" type="javax.sql.DataSource" />
+</Context>
