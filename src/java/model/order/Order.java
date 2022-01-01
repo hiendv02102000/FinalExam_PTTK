@@ -8,6 +8,7 @@ package model.order;
 import java.io.Serializable;
 import java.sql.Date;
 import model.cart.Cart;
+import model.customer.Customer;
 
 /**
  *
@@ -19,6 +20,7 @@ public class Order implements Serializable{
     private float tax;
     private String status;
     private Date orderDate;
+    private Customer customer;
     private Cart cart;
     private Shipment shipment;
     private Payment payment;
@@ -26,12 +28,13 @@ public class Order implements Serializable{
     public Order() {
     }
 
-    public Order(int id, float totalPrice, float tax, String status, Date orderDate, Cart cart, Shipment shipment, Payment payment) {
+    public Order(int id, float totalPrice, float tax, String status, Date orderDate, Customer customer, Cart cart, Shipment shipment, Payment payment) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.tax = tax;
         this.status = status;
         this.orderDate = orderDate;
+        this.customer = customer;
         this.cart = cart;
         this.shipment = shipment;
         this.payment = payment;
@@ -75,6 +78,14 @@ public class Order implements Serializable{
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Cart getCart() {

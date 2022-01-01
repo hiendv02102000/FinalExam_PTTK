@@ -95,7 +95,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             Logger.getLogger(CustomerDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
-            for(int i = 0; i < ps.length; i++){
+            for (int i = 0; i < ps.length; i++) {
                 DBUtil.closePreparedStatement(ps[i]);
                 DBUtil.closeResultSet(rs[i]);
             }
@@ -185,6 +185,76 @@ public class CustomerDAOImpl implements CustomerDAO {
                 DBUtil.closePreparedStatement(ps[i]);
             }
             for (int i = 0; i < rs.length; i++) {
+                DBUtil.closeResultSet(rs[i]);
+            }
+            connectionPool.freeConnection(connection);
+        }
+    }
+
+    @Override
+    public Customer getCustomerById(int customerId) {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        Connection connection = connectionPool.getConnection();
+
+        String query1 = "SELECT * FROM customer WHERE Id = ?";
+        String query2 = "SELECT * FROM account WHERE Id = ?";
+        String query3 = "SELECT * FROM fullname WHERE Id = ?";
+        String query4 = "SELECT * FROM address WHERE Id = ?";
+
+        PreparedStatement[] ps = new PreparedStatement[4];
+        ResultSet[] rs = new ResultSet[4];
+        Arrays.fill(ps, null);
+        Arrays.fill(rs, null);
+
+        try {
+            ps[0] = connection.prepareStatement(query1);
+            ps[0].setInt(1, customerId);
+            rs[0] = ps[0].executeQuery();
+            rs[0].next();
+            
+            int accountId = rs[0].getInt("AccountId");
+            int fullNameId = rs[0].getInt("FullNameId");
+            int addressId = rs[0].getInt("AddressId");
+            String tel = rs[0].getString("Tel");
+            Date doB = rs[0].getDate("DoB");
+            String sex = rs[0].getString("Sex");
+            
+            ps[1] = connection.prepareStatement(query2);
+            ps[1].setInt(1, accountId);
+            rs[1] = ps[1].executeQuery();
+            rs[1].next();
+            String username = rs[1].getString("Username");
+            String password = rs[1].getString("Password");
+            Account account = new Account(accountId, username, password);
+            
+            ps[2] = connection.prepareStatement(query3);
+            ps[2].setInt(1, fullNameId);
+            rs[2] = ps[2].executeQuery();
+            rs[2].next();
+            String firstName = rs[2].getString("FirstName");
+            String midName = rs[2].getString("MidName");
+            String lastName = rs[2].getString("LastName");
+            FullName fullName = new FullName(fullNameId, firstName, midName, lastName);
+            
+            ps[3] = connection.prepareStatement(query4);
+            ps[3].setInt(1, addressId);
+            rs[3] = ps[3].executeQuery();
+            rs[3].next();
+            int houseNo = rs[3].getInt("HouseNo");
+            String street = rs[3].getString("Street");
+            String district = rs[3].getString("District");
+            String city = rs[3].getString("City");
+            Address address = new Address(addressId, houseNo, street, district, city);
+            
+            Customer customer = new Customer(customerId, account, fullName, address, tel, doB, sex);
+            return customer;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            for (int i = 0; i < ps.length; i++) {
+                DBUtil.closePreparedStatement(ps[i]);
                 DBUtil.closeResultSet(rs[i]);
             }
             connectionPool.freeConnection(connection);

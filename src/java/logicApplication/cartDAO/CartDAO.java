@@ -7,6 +7,7 @@ package logicApplication.cartDAO;
 
 import java.util.List;
 import model.cart.Cart;
+import model.cart.SelectedItems;
 import model.itemBook.ItemBook;
 
 /**
@@ -16,7 +17,7 @@ import model.itemBook.ItemBook;
 public interface CartDAO {
     Cart createCart();
     Cart getCartById(int id);
-    boolean addItemBookToCart(ItemBook itemBook, Cart cart);
+    boolean addItemBookToCart(ItemBook itemBook, Cart cart, int quantity);
     boolean removeItemBookFromCart(ItemBook itemBook, Cart cart);
-    List<ItemBook> getItemBookOfCart(Cart cart);
+    List<SelectedItems> getItemsOfCart(int cartId);
 }

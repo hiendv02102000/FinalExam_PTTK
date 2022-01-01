@@ -15,4 +15,5 @@ import model.customer.Customer;
 public interface CustomerDAO {
     Customer checkLogin(Account account);
     Customer addCustomer(Customer cus);
+    Customer getCustomerById(int customerId);
 }

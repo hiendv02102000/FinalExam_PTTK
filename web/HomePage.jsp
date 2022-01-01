@@ -27,98 +27,87 @@
         </header>
         <br>
 
-        <div class="row">
-            <div class="container">
-                <h3 class="text-center text-uppercase">Chào mừng bạn đến với cửa hàng sách!</h3>
-                <div class="container text-center">
-                    <a href="<%=request.getContextPath()%>/new" class="btn btn-danger">Thêm sách</a>
-                </div>
-                <br>
+        <div class="container">
+            <h3 class="text-center text-uppercase">Chào mừng bạn đến với cửa hàng sách!</h3>
+            <br>
 
-                <div class="table-responsive-md">
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead class="table-primary text-center text-capitalize">
+            <div class="table-responsive-md">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-primary text-center text-capitalize">
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>ISBN</th>
+                            <th>Tựa đề</th>
+                            <th>Tác giả</th>
+                            <th>Tóm lược</th>
+                            <th>Thể loại</th>
+                            <th>Ấn bản thứ</th>
+                            <th>Ngày xuất bản</th>
+                            <th>Nhà xuất bản</th>
+                            <th>Số trang</th>
+                            <th>Ngôn ngữ</th>
+                            <th>Kích thước</th>
+                            <th>Trọng lượng</th>
+                            <th>Giá</th>
+                            <th>Giảm giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="itemBook" items="${listItemBooks}">
                             <tr>
-                                <th>Ảnh</th>
-                                <th>ISBN</th>
-                                <th>Tựa đề</th>
-                                <th>Tác giả</th>
-                                <th>Tóm lược</th>
-                                <th>Thể loại</th>
-                                <th>Ấn bản thứ</th>
-                                <th>Ngày xuất bản</th>
-                                <th>Nhà xuất bản</th>
-                                <th>Số trang</th>
-                                <th>Ngôn ngữ</th>
-                                <th>Kích thước</th>
-                                <th>Trọng lượng</th>
-                                <th>Giá</th>
-                                <th>Giảm giá</th>
-                                <th>Thao tác</th>
+                                <td>
+                                    <c:forEach items="${itemBook.images}" var="image">
+                                        <img src="${image.src}" style="width:175px;height:250px;">
+                                    </c:forEach>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.isbn}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.title}"/>
+                                </td>
+                                <td>
+                                    <c:forEach items="${itemBook.book.author}" var="auth">
+                                        <c:out value="${auth.name}"/>
+                                    </c:forEach>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.summary}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.category.type}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.edition} ed."/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.publicationDate}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.publisher.name}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.numOfPages} trang"/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.language}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.dimensions}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.book.weight} gam"/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.price} VNĐ"/>
+                                </td>
+                                <td>
+                                    <c:out value="${itemBook.discount}"/>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="itemBook" items="${listItemBooks}">
-                                <tr>
-                                    <td>
-                                        <c:forEach items="${itemBook.images}" var="image">
-                                            <img src="${image.src}" style="width:175px;height:250px;">
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.isbn}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.title}"/>
-                                    </td>
-                                    <td>
-                                        <c:forEach items="${itemBook.book.author}" var="auth">
-                                            <c:out value="${auth.name}"/>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.summary}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.category.type}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.edition}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.publicationDate}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.publisher.name}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.numOfPages}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.language}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.dimensions}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.book.weight}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.price}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${itemBook.discount}"/>
-                                    </td>
-                                    <td>
-                                        <a href="edit?id=<c:out value='${user.id}'/>" class="btn btn-outline-primary">Chỉnh sửa</a>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="delete?id=<c:out value='${user.id}'/>" class="btn btn-outline-primary">Xóa</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
+                        </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
     </body>

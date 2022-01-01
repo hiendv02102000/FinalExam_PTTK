@@ -15,9 +15,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logicApplication.cartDAO.CartDAOImpl;
 import logicApplication.customerDAO.CustomerDAOImpl;
 import logicApplication.employeeDAO.EmployeeDAOImpl;
 import logicApplication.itemBookDAO.ItemBookDAOImpl;
+import model.cart.Cart;
 import model.customer.Account;
 import model.customer.Customer;
 import model.employee.Employee;
@@ -104,7 +106,7 @@ public class LoginServlet extends HttpServlet {
                 Cookie usernameCookie = new Cookie("usernameCookie", customer.getAccount().getUsername());
                 usernameCookie.setMaxAge(-1);
                 response.addCookie(usernameCookie);
-
+                
                 request.setAttribute("listItemBooks", itemBooks);
                 request.setAttribute("username", customer.getAccount().getUsername());
                 RequestDispatcher dispatcher = request.getRequestDispatcher("HomePageCustomer.jsp");
