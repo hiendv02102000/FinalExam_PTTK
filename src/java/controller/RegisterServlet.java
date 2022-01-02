@@ -26,7 +26,12 @@ import model.customer.FullName;
  */
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
 public class RegisterServlet extends HttpServlet {
+    private CustomerDAOImpl customerDAOImpl;
 
+    public RegisterServlet() {
+        customerDAOImpl = new CustomerDAOImpl();
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -105,7 +110,6 @@ public class RegisterServlet extends HttpServlet {
         customer.setSex(sex);
         
         String reply;
-        CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
         customer = customerDAOImpl.addCustomer(customer);
         if(customer == null){
             reply = "Failed";

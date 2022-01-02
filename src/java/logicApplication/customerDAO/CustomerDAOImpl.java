@@ -59,38 +59,40 @@ public class CustomerDAOImpl implements CustomerDAO {
             ps[1].setInt(1, accountId);
             rs[1] = ps[1].executeQuery();
 
-            rs[1].next();
-            int customerId = rs[1].getInt("Id");
-            fullnameId = rs[1].getInt("FullNameId");
-            addressId = rs[1].getInt("AddressId");
-            String tel = rs[1].getString("Tel");
-            Date doB = rs[1].getDate("DoB");
-            String sex = rs[1].getString("Sex");
+            if (rs[1].next()) {
+                int customerId = rs[1].getInt("Id");
+                fullnameId = rs[1].getInt("FullNameId");
+                addressId = rs[1].getInt("AddressId");
+                String tel = rs[1].getString("Tel");
+                Date doB = rs[1].getDate("DoB");
+                String sex = rs[1].getString("Sex");
 
-            FullName fullName = new FullName();
-            Address address = new Address();
-            ps[2] = connection.prepareStatement(query3);
-            ps[2].setInt(1, fullnameId);
-            rs[2] = ps[2].executeQuery();
-            rs[2].next();
-            String firstName = rs[2].getString("FirstName");
-            String midName = rs[2].getString("MidName");
-            String lastName = rs[2].getString("LastName");
-            fullName = new FullName(fullnameId, firstName, midName, lastName);
+                FullName fullName = new FullName();
+                Address address = new Address();
+                ps[2] = connection.prepareStatement(query3);
+                ps[2].setInt(1, fullnameId);
+                rs[2] = ps[2].executeQuery();
+                rs[2].next();
+                String firstName = rs[2].getString("FirstName");
+                String midName = rs[2].getString("MidName");
+                String lastName = rs[2].getString("LastName");
+                fullName = new FullName(fullnameId, firstName, midName, lastName);
 
-            ps[3] = connection.prepareStatement(query4);
-            ps[3].setInt(1, addressId);
-            rs[3] = ps[3].executeQuery();
-            rs[3].next();
-            int houseNo = rs[3].getInt("HouseNo");
-            String street = rs[3].getString("Street");
-            String district = rs[3].getString("District");
-            String city = rs[3].getString("City");
-            address = new Address(addressId, houseNo, street, district, city);
+                ps[3] = connection.prepareStatement(query4);
+                ps[3].setInt(1, addressId);
+                rs[3] = ps[3].executeQuery();
+                rs[3].next();
+                int houseNo = rs[3].getInt("HouseNo");
+                String street = rs[3].getString("Street");
+                String district = rs[3].getString("District");
+                String city = rs[3].getString("City");
+                address = new Address(addressId, houseNo, street, district, city);
 
-            Customer customer = new Customer(customerId, account, fullName, address, tel, doB, sex);
-            return customer;
+                Customer customer = new Customer(customerId, account, fullName, address, tel, doB, sex);
+                return customer;
+            }
 
+            return null;
         } catch (SQLException ex) {
             Logger.getLogger(CustomerDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -211,14 +213,14 @@ public class CustomerDAOImpl implements CustomerDAO {
             ps[0].setInt(1, customerId);
             rs[0] = ps[0].executeQuery();
             rs[0].next();
-            
+
             int accountId = rs[0].getInt("AccountId");
             int fullNameId = rs[0].getInt("FullNameId");
             int addressId = rs[0].getInt("AddressId");
             String tel = rs[0].getString("Tel");
             Date doB = rs[0].getDate("DoB");
             String sex = rs[0].getString("Sex");
-            
+
             ps[1] = connection.prepareStatement(query2);
             ps[1].setInt(1, accountId);
             rs[1] = ps[1].executeQuery();
@@ -226,7 +228,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             String username = rs[1].getString("Username");
             String password = rs[1].getString("Password");
             Account account = new Account(accountId, username, password);
-            
+
             ps[2] = connection.prepareStatement(query3);
             ps[2].setInt(1, fullNameId);
             rs[2] = ps[2].executeQuery();
@@ -235,7 +237,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             String midName = rs[2].getString("MidName");
             String lastName = rs[2].getString("LastName");
             FullName fullName = new FullName(fullNameId, firstName, midName, lastName);
-            
+
             ps[3] = connection.prepareStatement(query4);
             ps[3].setInt(1, addressId);
             rs[3] = ps[3].executeQuery();
@@ -245,7 +247,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             String district = rs[3].getString("District");
             String city = rs[3].getString("City");
             Address address = new Address(addressId, houseNo, street, district, city);
-            
+
             Customer customer = new Customer(customerId, account, fullName, address, tel, doB, sex);
             return customer;
 

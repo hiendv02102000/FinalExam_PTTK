@@ -34,7 +34,20 @@ import model.order.Shipment;
  */
 @WebServlet(name = "ShipmentServlet", urlPatterns = {"/shipment"})
 public class ShipmentServlet extends HttpServlet {
+    private CustomerDAOImpl customerDAOImpl;
+    private OrderDAOImpl orderDAOImpl;
+    private ShipmentDAOImpl shipmentDAOImpl;
+    private PaymentDAOImpl paymentDAOImpl;
+    private CartDAOImpl cartDAOImpl;
 
+    public ShipmentServlet() {
+        customerDAOImpl = new CustomerDAOImpl();
+        orderDAOImpl = new OrderDAOImpl();
+        shipmentDAOImpl = new ShipmentDAOImpl();
+        paymentDAOImpl = new PaymentDAOImpl();
+        cartDAOImpl = new CartDAOImpl();
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -64,19 +77,13 @@ public class ShipmentServlet extends HttpServlet {
     }
 
     private void shipmentSubmit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ShipmentDAOImpl shipmentDAOImpl = new ShipmentDAOImpl();
-        CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-        PaymentDAOImpl paymentDAOImpl = new PaymentDAOImpl();
-        CartDAOImpl cartDAOImpl = new CartDAOImpl();
-        OrderDAOImpl orderDAOImpl = new OrderDAOImpl();
-        
         Cookie[] cookies = request.getCookies();
         String cartId = "";
         String customerId = "";
-        
-        if(cookies != null){
-            for(Cookie cookie: cookies){
-                if(cookie.getName().equals("cartCookie")){
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("cartCookie")) {
                     cartId = cookie.getValue();
                 }
                 if (cookie.getName().equals("customerIdCookie")) {
@@ -86,12 +93,12 @@ public class ShipmentServlet extends HttpServlet {
         }
         Cart cart = cartDAOImpl.getCartById(Integer.parseInt(cartId));
         Customer customer = customerDAOImpl.getCustomerById(Integer.parseInt(customerId));
-         
+
         request.setCharacterEncoding("UTF-8");
         String paymentId = request.getParameter("paymentId");
         Payment payment = paymentDAOImpl.getPaymentById(Integer.parseInt(paymentId));
+
         String shippingAddress = request.getParameter("shippingAddress");
-        
         Shipment shipment = new Shipment();
         shipment.setShippingAddress(shippingAddress);
         String method;
@@ -120,12 +127,12 @@ public class ShipmentServlet extends HttpServlet {
         }
         shipment.setPayment(payment);
         shipment = shipmentDAOImpl.addShipment(shipment);
-        
+
         float totalPrice = cart.getTotalPrice() + shipment.getCost();
         float tax = 0;
         String status = "Đặt hàng thành công";
         Date orderDate = Date.valueOf(LocalDate.now());
-        
+
         Order order = new Order();
         order.setCart(cart);
         order.setShipment(shipment);
@@ -135,9 +142,9 @@ public class ShipmentServlet extends HttpServlet {
         order.setTax(tax);
         order.setStatus(status);
         order.setOrderDate(orderDate);
-        
+
         order = orderDAOImpl.addOrder(order);
-        if(payment.getMethod().equals("Credit")){
+        if (payment.getMethod().equals("Credit")) {
             Credit credit = (Credit) payment;
             request.setAttribute("credit", credit);
         }

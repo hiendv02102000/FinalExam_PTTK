@@ -100,12 +100,12 @@ public class ItemBookDAOImpl implements ItemBookDAO {
                     ps[0].setString(1, book.getIsbn());
                     rs[0] = ps[0].executeQuery();
 
-                    while (rs[1].next()) {
-                        String barcode = rs[1].getString("Barcode");
-                        float price = rs[1].getFloat("Price");
-                        float discount = rs[1].getFloat("Discount");
-                        String promoText = rs[1].getString("PromoText");
-                        String description = rs[1].getString("Description");
+                    while (rs[0].next()) {
+                        String barcode = rs[0].getString("Barcode");
+                        float price = rs[0].getFloat("Price");
+                        float discount = rs[0].getFloat("Discount");
+                        String promoText = rs[0].getString("PromoText");
+                        String description = rs[0].getString("Description");
 
                         List<Image> images = new ArrayList<>();
                         ps[1] = connection.prepareStatement(query2);

@@ -23,7 +23,12 @@ import model.cart.Cart;
  */
 @WebServlet(name = "ShowCartController", urlPatterns = {"/cart"})
 public class ShowCartServlet extends HttpServlet {
+    private CartDAOImpl cartDAOImpl;
 
+    public ShowCartServlet() {
+        cartDAOImpl = new CartDAOImpl();
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -54,7 +59,6 @@ public class ShowCartServlet extends HttpServlet {
     }
 
     private void showCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CartDAOImpl cartDAOImpl = new CartDAOImpl();
         Cookie[] cookies = request.getCookies();
         String cartId = "";
         

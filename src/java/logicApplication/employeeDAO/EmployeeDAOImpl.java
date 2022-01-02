@@ -24,7 +24,7 @@ import model.employee.FullName;
  *
  * @author pc
  */
-public class EmployeeDAOImpl implements EmployeeDAO{
+public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public Employee checkLogin(Account account) {
@@ -59,49 +59,51 @@ public class EmployeeDAOImpl implements EmployeeDAO{
             ps[1].setInt(1, accountId);
             rs[1] = ps[1].executeQuery();
 
-            rs[1].next();
-            int employeeId = rs[1].getInt("Id");
-            fullnameId = rs[1].getInt("FullNameId");
-            addressId = rs[1].getInt("AddressId");
-            String tel = rs[1].getString("Tel");
-            Date doB = rs[1].getDate("DoB");
-            String sex = rs[1].getString("Sex");
-            String role = rs[1].getString("Role");
+            if (rs[1].next()) {
+                int employeeId = rs[1].getInt("Id");
+                fullnameId = rs[1].getInt("FullNameId");
+                addressId = rs[1].getInt("AddressId");
+                String tel = rs[1].getString("Tel");
+                Date doB = rs[1].getDate("DoB");
+                String sex = rs[1].getString("Sex");
+                String role = rs[1].getString("Role");
 
-            FullName fullName = new FullName();
-            Address address = new Address();
-            ps[2] = connection.prepareStatement(query3);
-            ps[2].setInt(1, fullnameId);
-            rs[2] = ps[2].executeQuery();
-            rs[2].next();
-            String firstName = rs[2].getString("FirstName");
-            String midName = rs[2].getString("MidName");
-            String lastName = rs[2].getString("LastName");
-            fullName = new FullName(fullnameId, firstName, midName, lastName);
+                FullName fullName = new FullName();
+                Address address = new Address();
+                ps[2] = connection.prepareStatement(query3);
+                ps[2].setInt(1, fullnameId);
+                rs[2] = ps[2].executeQuery();
+                rs[2].next();
+                String firstName = rs[2].getString("FirstName");
+                String midName = rs[2].getString("MidName");
+                String lastName = rs[2].getString("LastName");
+                fullName = new FullName(fullnameId, firstName, midName, lastName);
 
-            ps[3] = connection.prepareStatement(query4);
-            ps[3].setInt(1, addressId);
-            rs[3] = ps[3].executeQuery();
-            rs[3].next();
-            int houseNo = rs[3].getInt("HouseNo");
-            String street = rs[3].getString("Street");
-            String district = rs[3].getString("District");
-            String city = rs[3].getString("City");
-            address = new Address(addressId, houseNo, street, district, city);
+                ps[3] = connection.prepareStatement(query4);
+                ps[3].setInt(1, addressId);
+                rs[3] = ps[3].executeQuery();
+                rs[3].next();
+                int houseNo = rs[3].getInt("HouseNo");
+                String street = rs[3].getString("Street");
+                String district = rs[3].getString("District");
+                String city = rs[3].getString("City");
+                address = new Address(addressId, houseNo, street, district, city);
 
-            Employee employee = new Employee(employeeId, account, address, fullName, tel, doB, sex, role);
-            return employee;
+                Employee employee = new Employee(employeeId, account, address, fullName, tel, doB, sex, role);
+                return employee;
+            }
 
+            return null;
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
-            for(int i = 0; i < ps.length; i++){
+            for (int i = 0; i < ps.length; i++) {
                 DBUtil.closePreparedStatement(ps[i]);
                 DBUtil.closeResultSet(rs[i]);
             }
             connectionPool.freeConnection(connection);
         }
     }
-    
+
 }

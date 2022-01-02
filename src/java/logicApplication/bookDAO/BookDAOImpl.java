@@ -157,7 +157,7 @@ public class BookDAOImpl implements BookDAO {
             ps = connection.prepareStatement(query1);
             ps.setString(1, title);
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 String isbn = rs.getString("ISBN");
                 Book book = getByISBN(isbn);

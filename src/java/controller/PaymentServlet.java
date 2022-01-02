@@ -30,8 +30,15 @@ import model.order.Payment;
  */
 @WebServlet(name = "PaymentServlet", urlPatterns = {"/payment"})
 public class PaymentServlet extends HttpServlet {
+    private PaymentDAOImpl paymentDAOImpl;
+    private CustomerDAOImpl customerDAOImpl;
+    private CartDAOImpl cartDAOImpl;
 
-
+    public PaymentServlet() {
+        paymentDAOImpl = new PaymentDAOImpl();
+        customerDAOImpl = new CustomerDAOImpl();
+        cartDAOImpl = new CartDAOImpl();
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -60,24 +67,21 @@ public class PaymentServlet extends HttpServlet {
             throws ServletException, IOException {
         paymentSubmit(request, response);
     }
+
     private void showPaymentPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("PaymentInfo.jsp");
         dispatcher.forward(request, response);
     }
-    
+
     private void paymentSubmit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PaymentDAOImpl paymentDAOImpl = new PaymentDAOImpl();
-        CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-        
         request.setCharacterEncoding("UTF-8");
-        CartDAOImpl cartDAOImpl = new CartDAOImpl();
         Cookie[] cookies = request.getCookies();
         String cartId = "";
         String customerId = "";
-        
-        if(cookies != null){
-            for(Cookie cookie: cookies){
-                if(cookie.getName().equals("cartCookie")){
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("cartCookie")) {
                     cartId = cookie.getValue();
                 }
                 if (cookie.getName().equals("customerIdCookie")) {
@@ -87,31 +91,48 @@ public class PaymentServlet extends HttpServlet {
         }
 
         Cart cart = cartDAOImpl.getCartById(Integer.parseInt(cartId));
-        
+
         String method = request.getParameter("method");
         System.out.println(method);
-        if(method.equals("Cash")){
+        if (method.equals("Cash")) {
             Payment payment = cart.getPayment();
             int paymentId = payment.getId();
             Cash cash = new Cash(cart.getTotalPrice(), paymentId, method);
             paymentDAOImpl.addPayment((Payment) cash);
-        } else if(method.equals("Credit")){
+
+            request.setAttribute("paymentId", cart.getPayment().getId());
+            Customer customer = customerDAOImpl.getCustomerById(Integer.parseInt(customerId));
+            request.setAttribute("customer", customer);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("ShipmentInfo.jsp");
+            dispatcher.forward(request, response);
+        } else if (method.equals("Credit")) {
             Payment payment = cart.getPayment();
             int paymentId = payment.getId();
-            String cardId = request.getParameter("cardId");
-            String accountId = request.getParameter("accountId");
-            String bank = request.getParameter("bank");
-            String type = request.getParameter("type");
-            Date expDate = Date.valueOf(request.getParameter("expDate"));
-            Credit credit = new Credit(cardId, accountId, bank, type, expDate, paymentId, method);
-            paymentDAOImpl.addPayment((Payment) credit);
+
+            if (request.getParameter("cardId").isEmpty() || request.getParameter("accountId").isEmpty()
+                    || request.getParameter("bank").isEmpty() || request.getParameter("type").isEmpty() || request.getParameter("expDate").isEmpty()) {
+                String reply = "Failed";
+                request.setAttribute("reply", reply);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("PaymentInfo.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                String cardId = request.getParameter("cardId");
+                String accountId = request.getParameter("accountId");
+                String bank = request.getParameter("bank");
+                String type = request.getParameter("type");
+                Date expDate = Date.valueOf(request.getParameter("expDate"));
+                Credit credit = new Credit(cardId, accountId, bank, type, expDate, paymentId, method);
+                paymentDAOImpl.addPayment((Payment) credit);
+
+                request.setAttribute("paymentId", cart.getPayment().getId());
+                Customer customer = customerDAOImpl.getCustomerById(Integer.parseInt(customerId));
+                request.setAttribute("customer", customer);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("ShipmentInfo.jsp");
+                dispatcher.forward(request, response);
+            }
         }
-        
-        request.setAttribute("paymentId", cart.getPayment().getId());
-        Customer customer = customerDAOImpl.getCustomerById(Integer.parseInt(customerId));
-        request.setAttribute("customer", customer);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("ShipmentInfo.jsp");
-        dispatcher.forward(request, response);
+
     }
-    
+
 }

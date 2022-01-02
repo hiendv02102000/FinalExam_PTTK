@@ -81,7 +81,13 @@
                             <label>Ngày hết hạn</label>
                             <input type="date" class="form-control" name="expDate"> 
                         </fieldset>
-
+                        
+                        <div class="text-body">
+                            <c:if test="${reply == 'Failed'}">
+                                <h4 style="color: red">Một hoặc nhiều hơn các trường chưa có thông tin. Hãy nhập lại!</h4>
+                            </c:if>
+                        </div>
+                        
                         <div class="card-footer text-center">
                             <button type="submit" class="btn btn-success">Tiếp tục đến Địa chỉ giao hàng</button>
                         </div>

@@ -58,7 +58,7 @@
                         <input type="hidden" name="paymentId" value="${paymentId}"/>
                         
                         <div class="card-footer text-center">
-                            <button type="submit" class="btn btn-success">Đặt hàng</button>
+                            <button type="submit" class="btn btn-danger">Đặt hàng</button>
                         </div>
                     </form>
                 </div>

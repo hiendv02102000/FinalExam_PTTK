@@ -23,7 +23,11 @@ import model.itemBook.ItemBook;
  */
 @WebServlet(name = "HomePageEmServlet", urlPatterns = {"/homeEm"})
 public class HomePageEmServlet extends HttpServlet {
+    private ItemBookDAOImpl itemBookDAOImpl;
 
+    public HomePageEmServlet() {
+        itemBookDAOImpl = new ItemBookDAOImpl();
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -55,7 +59,6 @@ public class HomePageEmServlet extends HttpServlet {
     }
 
     private void showHomePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        ItemBookDAOImpl itemBookDAOImpl = new ItemBookDAOImpl();
         List<ItemBook> itemBooks = itemBookDAOImpl.getAllItemBook();
         request.setAttribute("listItemBooks", itemBooks);
         

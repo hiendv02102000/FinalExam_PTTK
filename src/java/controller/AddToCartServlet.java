@@ -25,6 +25,13 @@ import model.itemBook.ItemBook;
  */
 @WebServlet(name = "AddToCartServlet", urlPatterns = {"/addToCart"})
 public class AddToCartServlet extends HttpServlet {
+    private CartDAOImpl cartDAOImpl;
+    private ItemBookDAOImpl itemBookDAOImpl;
+
+    public AddToCartServlet() {
+        cartDAOImpl = new CartDAOImpl();
+        itemBookDAOImpl = new ItemBookDAOImpl();
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -56,11 +63,8 @@ public class AddToCartServlet extends HttpServlet {
     }
 
     private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CartDAOImpl cartDAOImpl = new CartDAOImpl();
-        ItemBookDAOImpl itemBookDAOImpl = new ItemBookDAOImpl();
-
         String itemBarcode = request.getParameter("itemBarcode");
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        String quantity = request.getParameter("quantity");
         int cartId;
 
         if (request.getParameter("cartId").isEmpty()) {
@@ -78,22 +82,36 @@ public class AddToCartServlet extends HttpServlet {
         System.out.println("Them san pham " + itemBarcode + " vao gio hang co ma " + cartId);
         ItemBook itemBook = itemBookDAOImpl.getItemBookByCode(itemBarcode);
         Cart newCart = cartDAOImpl.getCartById(cartId);
-        if (cartDAOImpl.addItemBookToCart(itemBook, newCart, quantity)) {
-            System.out.println("Them tnanh cong");
-            newCart = cartDAOImpl.getCartById(cartId);
-            
-            reply = "Success";
-        } else {
-            System.out.println("Them khong thanh cong");
-            reply = "Failed";
+
+        try {
+            int quan = Integer.parseInt(quantity);
+            if (quan <= 0) {
+                System.out.println("So luong khong hop le");
+                reply = "Invalid";
+            } else {
+                if (cartDAOImpl.addItemBookToCart(itemBook, newCart, quan)) {
+                    System.out.println("Them thanh cong");
+                    newCart = cartDAOImpl.getCartById(cartId);
+
+                    reply = "Success";
+                } else {
+                    System.out.println("Them khong thanh cong");
+                    reply = "Failed";
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("So luong khong hop le");
+            reply = "Invalid";
         }
-        
+
         Cookie replyCookie = new Cookie("replyCookie", reply);
         Cookie barcodeCookie = new Cookie("barcodeCookie", itemBarcode);
         replyCookie.setMaxAge(1);
         barcodeCookie.setMaxAge(1);
         response.addCookie(replyCookie);
         response.addCookie(barcodeCookie);
+
         response.sendRedirect("homeCus");
     }
 

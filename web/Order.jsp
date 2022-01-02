@@ -38,7 +38,7 @@
 
             <%--  <c:if test="${orderAvailable == 'Yes'}"> --%>
                 <h3 class="text-center" style="color: red">Chúc mừng bạn đã đặt hàng thành công!</h3>
-                <h3 class="text-center" style="color: #0b5ed7">Thông tin chi tiết về đơn hàng</h3>
+                <h3 class="text-center" style="color: #0b5ed7">Thông tin chi tiết về đơn hàng của khách hàng <c:out value="${order.customer.fullName.lastName} ${order.customer.fullName.midName} ${order.customer.fullName.firstName}"></c:out></h3>
                 <div class="table-responsive-md">
                     <table class="table table-bordered table-striped table-hover">
                         <thead class="table-primary text-center text-capitalize">
@@ -71,7 +71,7 @@
                             </c:forEach>
                             <tr>
                                 <td colspan="3">
-                                    <h5 style="color: mediumblue" class="text-end">Tổng giá cho sản phẩm</h5>
+                                    <h5 style="color: mediumblue" class="text-end">Tổng số sản phẩm và tổng giá</h5>
                                 </td>
                                 <td>
                                     <h5 style="color: green">
@@ -79,7 +79,7 @@
                                     </h5>
                                 </td>
                                 <td>
-                                    <h5 style="color: #ffc107">
+                                    <h5 style="color: crimson">
                                         <c:out value="${order.cart.totalPrice}"/>
                                     </h5>
                                 </td>
@@ -104,7 +104,7 @@
                                     </h5>
                                 </td>
                                 <td>
-                                    <h5 style="color: #ffc107">
+                                    <h5 style="color: crimson">
                                         <c:out value="${order.shipment.cost}"/>
                                     </h5>
                                 </td>

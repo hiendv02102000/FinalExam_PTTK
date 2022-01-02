@@ -31,7 +31,16 @@ import model.itemBook.ItemBook;
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
-
+    private CustomerDAOImpl customerDAOImpl;
+    private EmployeeDAOImpl employeeDAOImpl;
+    private ItemBookDAOImpl itemBookDAOImpl;
+    
+    public LoginServlet() {
+        customerDAOImpl = new CustomerDAOImpl();
+        employeeDAOImpl = new EmployeeDAOImpl();
+        itemBookDAOImpl = new ItemBookDAOImpl();
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -79,10 +88,8 @@ public class LoginServlet extends HttpServlet {
         accEmployee.setPassword(password);
 
         Customer customer = new Customer();
-        CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
         customer = customerDAOImpl.checkLogin(account);
         Employee employee = new Employee();
-        EmployeeDAOImpl employeeDAOImpl = new EmployeeDAOImpl();
         employee = employeeDAOImpl.checkLogin(accEmployee);
         String reply;
 
@@ -95,7 +102,6 @@ public class LoginServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } else {
             reply = "Success";
-            ItemBookDAOImpl itemBookDAOImpl = new ItemBookDAOImpl();
             List<ItemBook> itemBooks = itemBookDAOImpl.getAllItemBook();
 
             if (customer != null) {

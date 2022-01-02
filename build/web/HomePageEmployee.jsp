@@ -73,7 +73,7 @@
                                     <td>
                                         <c:out value="${itemBook.book.isbn}"/>
                                     </td>
-                                    <td>
+                                    <td class="font-weight-bold">
                                         <c:out value="${itemBook.book.title}"/>
                                     </td>
                                     <td>
