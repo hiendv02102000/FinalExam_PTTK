@@ -5,7 +5,10 @@
  */
 package logicApplication.orderDAO;
 
+import model.cart.Cart;
 import model.order.Order;
+import model.order.Payment;
+import model.order.Shipment;
 
 /**
  *
@@ -13,4 +16,7 @@ import model.order.Order;
  */
 public interface OrderDAO {
     Order addOrder(Order order);
+    Cart getCart(Cart cart);
+    Payment getPayment(Payment payment);
+    Shipment getShipment(Shipment shipment);
 }

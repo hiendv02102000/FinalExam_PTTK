@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.order.Payment;
 import model.order.Shipment;
 
 /**
@@ -58,6 +59,12 @@ public class ShipmentDAOImpl implements ShipmentDAO {
                 connectionPool.freeConnection(connection);
             }
         }
+    }
+
+    @Override
+    public Payment getPayment(Payment payment) {
+        PaymentDAOImpl paymentDAOImpl = new PaymentDAOImpl();
+        return paymentDAOImpl.getPaymentById(payment.getId());
     }
     
 }

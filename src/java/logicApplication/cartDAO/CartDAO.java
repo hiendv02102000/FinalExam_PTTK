@@ -9,6 +9,7 @@ import java.util.List;
 import model.cart.Cart;
 import model.cart.SelectedItems;
 import model.itemBook.ItemBook;
+import model.order.Payment;
 
 /**
  *
@@ -20,4 +21,5 @@ public interface CartDAO {
     boolean addItemBookToCart(ItemBook itemBook, Cart cart, int quantity);
     boolean removeItemBookFromCart(ItemBook itemBook, Cart cart);
     List<SelectedItems> getItemsOfCart(int cartId);
+    Payment getPayment(Payment payment);
 }

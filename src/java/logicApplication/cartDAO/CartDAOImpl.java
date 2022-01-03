@@ -213,4 +213,10 @@ public class CartDAOImpl implements CartDAO {
         }
     }
 
+    @Override
+    public Payment getPayment(Payment payment) {
+        PaymentDAOImpl paymentDAOImpl = new PaymentDAOImpl();
+        return paymentDAOImpl.getPaymentById(payment.getId());
+    }
+
 }

@@ -14,7 +14,11 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import logicApplication.cartDAO.CartDAOImpl;
+import model.cart.Cart;
 import model.order.Order;
+import model.order.Payment;
+import model.order.Shipment;
 
 /**
  *
@@ -64,6 +68,23 @@ public class OrderDAOImpl implements OrderDAO{
                 connectionPool.freeConnection(connection);
             }
         }
+    }
+
+    @Override
+    public Cart getCart(Cart cart) {
+        CartDAOImpl cartDAOImpl = new CartDAOImpl();
+        return cartDAOImpl.getCartById(cart.getId());
+    }
+
+    @Override
+    public Payment getPayment(Payment payment) {
+        PaymentDAOImpl paymentDAOImpl = new PaymentDAOImpl();
+        return paymentDAOImpl.getPaymentById(payment.getId());
+    }
+
+    @Override
+    public Shipment getShipment(Shipment shipment) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }
