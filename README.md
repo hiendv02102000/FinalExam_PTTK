@@ -13,6 +13,7 @@ Project cho bài tiểu luận thi kết thúc học phần Phân tích và Thi�
 2. Staff: Login
 
 **Để chạy ứng dụng cần**
-1. MySQL 8.0.27
-2. NetBeans 12.0
-3. Tomcat Server phiên bản 8-9
+1. JDK 8
+2. MySQL 8.0.27
+3. NetBeans 12.0
+4. Tomcat Server phiên bản 8-9
