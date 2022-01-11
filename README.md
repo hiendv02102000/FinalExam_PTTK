@@ -6,7 +6,7 @@ Project cho bài tiểu luận thi kết thúc học phần Phân tích và Thi�
 1. Kiến trúc 3-layer (Presentation-Logic Application-Model) cùng với mô hình MVC
 2. DAO pattern
 3. JSP và Servlet
-4. Sử dụng MySQL (8.0.27)
+4. Sử dụng MySQL
 
 **Các chức năng đã cài đặt**
 1. Customer: Register, Login, Search, Add to cart, View cart, Shipment, Payment, Create order
