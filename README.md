@@ -11,3 +11,8 @@ Project cho bài tiểu luận thi kết thúc học phần Phân tích và Thi�
 **Các chức năng đã cài đặt**
 1. Customer: Register, Login, Search, Add to cart, View cart, Shipment, Payment, Create order
 2. Staff: Login
+
+**Để chạy ứng dụng cần**
+1. MySQL 8.0.27
+2. NetBeans 12.0
+3. Tomcat Server phiên bản 8-9
