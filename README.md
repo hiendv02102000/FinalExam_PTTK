@@ -3,7 +3,7 @@ Project cho bài tiểu luận thi kết thúc học phần Phân tích và Thi�
 
 ### Đề bài: *Book store online* ###
 **Yêu cầu thiết kế và cài đặt**
-1. Kiến trúc 3 layer (Presentation-Logic Application-Model) cùng với MVC
+1. Kiến trúc 3 layer (Presentation-Logic Application-Model) cùng với mô hình MVC
 2. DAO pattern
 3. JSP và Servlet
 4. Sử dụng MySQL (8.0.27)
