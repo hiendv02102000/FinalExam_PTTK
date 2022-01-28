@@ -149,13 +149,16 @@ public class BookDAOImpl implements BookDAO {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
 
-        String query1 = "SELECT * FROM book WHERE Title = ?";
+        String query1 = "SELECT * FROM book WHERE Title LIKE ?";
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
             ps = connection.prepareStatement(query1);
-            ps.setString(1, title);
+            StringBuilder builder = new StringBuilder("%");
+            builder.append(title);
+            builder.append("%");
+            ps.setString(1, builder.toString()); // SELECT * FROM book WHERE Title LIKE %title%
             rs = ps.executeQuery();
             
             while (rs.next()) {
