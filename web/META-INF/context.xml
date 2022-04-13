@@ -2,9 +2,10 @@
 <Context path="/FinalExam_PTTK">
     <Resource name="jdbc/finalexampttk" auth="Container" 
               maxActive="100" maxIdle="30" maxWait="10000" 
-              username="root" password="root" 
+              username="root" password="123456" 
               driverClassName="com.mysql.cj.jdbc.Driver" 
-              url="jdbc:mysql://localhost:3306/finalexampttk?autoReconnect=true" 
+              url="jdbc:mysql://localhost:3307/finalexampttk?autoReconnect=true" 
               logAbandoned="true" removeAbandoned="true" 
               removeAbandonedTimeout="60" type="javax.sql.DataSource" />
 </Context>
+<!--mysql://b39a2675c27dcd:712f31e5@us-cdbr-east-05.cleardb.net/heroku_629c2c40efd6545?reconnect=true-->

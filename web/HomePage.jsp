@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,8 +13,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Final Exam A&D</title>
         <link rel="stylesheet" href="styles/bootstrap.css" type="text/css">
+        
         <style>
             <jsp:include page="styles/css/bootstrap.css"></jsp:include>
+            <jsp:include page="styles/css/book.css"></jsp:include>
             </style>
         </head>
 
@@ -31,84 +34,34 @@
             <h3 class="text-center text-uppercase">Chào mừng bạn đến với cửa hàng sách!</h3>
             <br>
 
-            <div class="table-responsive-md">
-                <table class="table table-bordered table-striped table-hover">
-                    <thead class="table-primary text-center text-capitalize">
-                        <tr>
-                            <th>Ảnh</th>
-                            <th>ISBN</th>
-                            <th>Tựa đề</th>
-                            <th>Tác giả</th>
-                            <th>Tóm lược</th>
-                            <th>Thể loại</th>
-                            <th>Ấn bản thứ</th>
-                            <th>Ngày xuất bản</th>
-                            <th>Nhà xuất bản</th>
-                            <th>Số trang</th>
-                            <th>Ngôn ngữ</th>
-                            <th>Kích thước</th>
-                            <th>Trọng lượng</th>
-                            <th>Giá</th>
-                            <th>Giảm giá</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="itemBook" items="${listItemBooks}">
-                            <tr>
-                                <td>
-                                    <c:forEach items="${itemBook.images}" var="image">
-                                        <img src="${image.src}" style="width:175px;height:250px;">
-                                    </c:forEach>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.isbn}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.title}"/>
-                                </td>
-                                <td>
-                                    <c:forEach items="${itemBook.book.author}" var="auth">
-                                        <c:out value="${auth.name}"/>
-                                    </c:forEach>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.summary}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.category.type}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.edition} ed."/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.publicationDate}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.publisher.name}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.numOfPages} trang"/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.language}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.dimensions}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.book.weight} gam"/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.price} VNĐ"/>
-                                </td>
-                                <td>
-                                    <c:out value="${itemBook.discount}"/>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+            <ul class="books">
+                <c:forEach var="itemBook" items="${listItemBooks}">
+                    <li onclick="detailBook(${itemBook.book.isbn})">
+
+                        <div class="image">
+                            <c:forEach items="${itemBook.images}" var="image">
+                                <img src="${image.src}" >
+                            </c:forEach>
+                        </div>
+                        <div class="content-book">
+                            <span>${itemBook.book.title}</span> 
+                            <br>
+
+                        </div>
+                      <fmt:formatNumber var="priceBook" type="number" value="${itemBook.price*(1-itemBook.discount)}" maxFractionDigits="0"/>
+                        <span class="price"> <c:out value="${priceBook}"/>đ</span>
+                        <c:if test="${itemBook.discount>0}">
+                            <fmt:formatNumber var="priceBookNotDiscont" type="number" value="${itemBook.price}" maxFractionDigits="0"/>
+                            <span class="price-not-discount"><c:out value="${priceBookNotDiscont}"/>đ</span>
+                        </c:if>
+
+                        </a
+                    </li>
+                </c:forEach> 
+
+            </ul>
         </div>
-    </body>
+        <script type="text/javascript" src="styles/js/replace.js"></script>
+    </div>
+</body>
 </html>

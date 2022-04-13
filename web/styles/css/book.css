@@ -1,0 +1,54 @@
+.books {
+    list-style-type: none;
+ }
+ 
+.books  li {
+    display: block;
+    float: left;
+    width: 225px; /* bề rộng bao nhiêu tùy bạn */
+    height: 350px;
+    text-align: left; /* để hình ảnh, tên và giá sản phẩm nằm vô giữa */
+    margin: 10px 10px;
+    border: 5px solid green;
+  
+ }
+.books  li:hover {
+   background-color: greenyellow;
+  
+ }
+
+ .content-book{
+     margin-left: 10px;
+     height: 30%;
+ }
+.books .image {
+     width: 100%;
+     
+ }
+ .image img {
+     width: 80%;
+     height: 200px;
+     display: block; 
+     margin-left: auto; 
+     margin-right: auto;
+     margin-top: 10px;
+     border: 2px solid black;
+ }
+ .price {
+    line-height: 1.65rem;
+    font-size: 1.25rem !important;
+    color: #C92127;
+    font-weight: 600;
+    margin-left: 10px;
+}
+.price-not-discount {
+    line-height: 1.65rem;
+    font-size: 1rem !important;
+    color: black;
+    font-weight: 600;
+    margin-left: 10px;
+    text-decoration: line-through;
+    text-align: right;
+}
+ 
+ 
